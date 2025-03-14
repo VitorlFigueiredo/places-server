@@ -2,6 +2,9 @@ package com.example.places_api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @SpringBootApplication
@@ -41,6 +44,17 @@ class BipedController {
 		return "$name, Seja bem-vindo à nossa consultoria premium! Seu períoldo de teste expira em $validity dias."
 	}
 
+	@GetMapping("/{id}")
+	fun createNewAppInfo(@PathVariable id: String): ResponseEntity<AppInfo> {
+		 val appInfo = AppInfo(
+			id,
+			 "Vitin",
+			"Seu toba",
+			 "90"
+		)
+		return ResponseEntity.status(HttpStatus.CREATED).body(appInfo)
+	}
+
 	@PostMapping("/infosapp")
 	fun infosApp(@RequestBody appInfo: AppInfo): String{
 		return "Seu aplicativo foi criado com sucesso!" +
@@ -51,6 +65,7 @@ class BipedController {
 }
 
 data class AppInfo(
+	val id:String?,
 	val login : String,
    	val pontuacao : String,
     val diasRestantes : String
